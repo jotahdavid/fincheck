@@ -1,8 +1,10 @@
-import { ComponentProps, useId } from "react";
+import { ComponentProps, useId } from 'react';
 
 interface InputProps extends ComponentProps<'input'> {}
 
-export function Input({ className, placeholder, id, ...props }: InputProps) {
+export function Input({
+  className, placeholder, id, ...props
+}: InputProps) {
   const randomId = useId();
 
   return (

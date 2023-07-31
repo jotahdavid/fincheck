@@ -26,5 +26,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/order': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'class-methods-use-this': 'off',
   },
 }

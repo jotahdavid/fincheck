@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { LocalStorageKeys } from '../config/LocalStorageKeys';
+import { delay } from '../utils/delay';
 
 const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -12,6 +13,11 @@ httpClient.interceptors.request.use((config) => {
     config.headers.setAuthorization(`Bearer ${accessToken}`);
   }
   return config;
+});
+
+httpClient.interceptors.response.use(async (data) => {
+  await delay(500);
+  return data;
 });
 
 export default httpClient;

@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 
 import { LocalStorageKeys } from '../config/LocalStorageKeys';
 import { usersService } from '../services/usersService';
+import { LaunchScreen } from '../../view/components/LaunchScreen';
 
 interface AuthProviderValue {
   signedIn: boolean;
@@ -25,10 +26,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return Boolean(storedAccessToken);
   });
 
-  const { isError } = useQuery({
+  const {
+    isError, isFetching, isSuccess, remove,
+  } = useQuery({
     queryKey: ['users', 'me'],
     queryFn: () => usersService.me(),
     enabled: signedIn,
+    staleTime: Infinity,
   });
 
   const signIn = useCallback((newAccessToken: string) => {
@@ -38,8 +42,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = useCallback(() => {
     localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
+    remove();
     setSignedIn(false);
-  }, []);
+  }, [remove]);
 
   useEffect(() => {
     if (isError) {
@@ -49,14 +54,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [isError, signOut]);
 
   const authProviderValue = useMemo(() => ({
-    signedIn,
+    signedIn: isSuccess && signedIn,
     signIn,
     signOut,
-  }), [signedIn, signIn, signOut]);
+  }), [isSuccess, signedIn, signIn, signOut]);
 
   return (
     <AuthContext.Provider value={authProviderValue}>
-      {children}
+      <LaunchScreen isLoading={isFetching} />
+
+      {!isFetching && children}
     </AuthContext.Provider>
   );
 }

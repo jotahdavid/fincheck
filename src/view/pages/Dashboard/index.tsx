@@ -1,6 +1,7 @@
-import { useAuth } from '../../../app/hooks/useAuth';
-import { Logo } from '../../components/Logo';
-import { UserMenu } from '../../components/UserMenu';
+import { useAuth } from '@app/hooks/useAuth';
+import { Logo } from '@view/components/Logo';
+import { UserMenu } from '@view/components/UserMenu';
+
 import { Accounts } from './components/Accounts';
 import { Transactions } from './components/Transactions';
 

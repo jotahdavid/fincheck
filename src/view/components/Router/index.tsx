@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import { Login } from '@view/pages/Login';
+import { Register } from '@view/pages/Register';
+import { Dashboard } from '@view/pages/Dashboard';
+import { AuthLayout } from '@view/layouts/AuthLayout';
 import { AuthGuard } from './AuthGuard';
-import { Login } from '../../pages/Login';
-import { Register } from '../../pages/Register';
-import { Dashboard } from '../../pages/Dashboard';
-import { AuthLayout } from '../../layouts/AuthLayout';
 
 export function Router() {
   return (

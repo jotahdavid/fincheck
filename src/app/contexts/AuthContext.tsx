@@ -4,9 +4,9 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
-import { LocalStorageKeys } from '../config/LocalStorageKeys';
-import { usersService } from '../services/usersService';
-import { LaunchScreen } from '../../view/components/LaunchScreen';
+import { LocalStorageKeys } from '@app/config/LocalStorageKeys';
+import { usersService } from '@app/services/usersService';
+import { LaunchScreen } from '@view/components/LaunchScreen';
 
 interface AuthProviderValue {
   signedIn: boolean;

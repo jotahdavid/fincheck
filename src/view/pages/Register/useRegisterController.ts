@@ -4,10 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
-import authService from '../../../app/services/authService';
-import { SignupParams } from '../../../app/services/authService/signup';
-import { delay } from '../../../app/utils/delay';
-import { useAuth } from '../../../app/hooks/useAuth';
+import authService from '@app/services/authService';
+import { SignupParams } from '@app/services/authService/signup';
+import { delay } from '@app/utils/delay';
+import { useAuth } from '@app/hooks/useAuth';
 
 const schema = z.object({
   name: z.string().nonempty('Nome é obrigatório'),

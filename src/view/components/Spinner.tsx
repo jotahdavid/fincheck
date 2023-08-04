@@ -1,4 +1,4 @@
-import { cn } from '../../app/utils/cn';
+import { cn } from '@app/utils/cn';
 
 const spinnerSizes = {
   sm: 'h-4 w-4',

@@ -1,4 +1,4 @@
-import httpClient from '../httpClient';
+import httpClient from '@app/services/httpClient';
 
 export interface SignupParams {
   name: string;

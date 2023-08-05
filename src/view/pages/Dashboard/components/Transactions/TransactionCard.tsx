@@ -7,10 +7,11 @@ interface TransactionCardProps {
   date: string;
   type: 'income' | 'expense';
   value: number;
+  isValueVisible?: boolean;
 }
 
 export function TransactionCard({
-  name, date, type, value,
+  name, date, type, value, isValueVisible = true,
 }: TransactionCardProps) {
   return (
     <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
@@ -30,6 +31,7 @@ export function TransactionCard({
       <span className={cn(
         'tracking-[-0.5px] font-medium',
         type === 'income' ? 'text-green-800' : 'text-red-800',
+        !isValueVisible && 'blur-[8px] select-none',
       )}
       >
         {type === 'expense' && '- '}
@@ -38,3 +40,7 @@ export function TransactionCard({
     </div>
   );
 }
+
+TransactionCard.defaultProps = {
+  isValueVisible: true,
+};

@@ -8,8 +8,11 @@ import { MONTHS } from '@app/config/constants';
 import { SliderOption } from './SliderOption';
 import { SliderNavigation } from './SliderNavigation';
 import { TransactionCard } from './TransactionCard';
+import { useTransactionsController } from './useTransactionsController';
 
 export function Transactions() {
+  const { areValuesVisible } = useTransactionsController();
+
   return (
     <div className="bg-gray-100 w-full h-full rounded-2xl p-10 flex flex-col">
       <header>
@@ -55,6 +58,7 @@ export function Transactions() {
           date="04/06/2023"
           type="expense"
           value={40}
+          isValueVisible={areValuesVisible}
         />
 
         <TransactionCard
@@ -62,6 +66,7 @@ export function Transactions() {
           date="05/06/2023"
           type="income"
           value={2210}
+          isValueVisible={areValuesVisible}
         />
       </div>
     </div>

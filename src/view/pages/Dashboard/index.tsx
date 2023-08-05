@@ -5,6 +5,7 @@ import { UserMenu } from '@view/components/UserMenu';
 import { DashboardProvider } from './components/DashboardContext';
 import { Accounts } from './components/Accounts';
 import { Transactions } from './components/Transactions';
+import { Fab } from './components/Fab';
 
 export function Dashboard() {
   useAuth();
@@ -26,6 +27,8 @@ export function Dashboard() {
             <Transactions />
           </section>
         </main>
+
+        <Fab />
       </div>
     </DashboardProvider>
   );

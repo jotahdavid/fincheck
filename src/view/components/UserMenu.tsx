@@ -16,7 +16,7 @@ export function UserMenu() {
         </div>
       </DropdownMenu.Trigger>
 
-      <DropdownMenu.Content className="w-32 left-0">
+      <DropdownMenu.Content className="w-32 mr-4">
         <DropdownMenu.Item
           className="flex items-center justify-between"
           onSelect={signOut}

@@ -2,12 +2,15 @@ import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { EyeIcon } from '@view/components/icons/EyeIcon';
+import { useWindowWidth } from '@app/hooks/useWindowWidth';
+
 import { AccountCard } from './AccountCard';
 import { AccountsSliderNavigation } from './AccountsSliderNavigation';
 import { useAccountsController } from './useAccountsController';
 
 export function Accounts() {
   const { sliderState, setSliderState } = useAccountsController();
+  const windowWidth = useWindowWidth();
 
   return (
     <div className="bg-teal-900 w-full h-full rounded-2xl px-4 py-8 md:p-10 flex flex-col">
@@ -25,10 +28,10 @@ export function Accounts() {
         </div>
       </div>
 
-      <div className="flex-1 flex">
+      <div className="flex-1 flex mt-10">
         <Swiper
           spaceBetween={16}
-          slidesPerView={2.1}
+          slidesPerView={windowWidth >= 500 ? 2.1 : 1.1}
           className="w-full h-full flex flex-1 flex-col justify-end"
           wrapperClass="mt-4 h-auto"
           onSlideChange={(swiper) => {

@@ -6,11 +6,11 @@ const spinnerSizes = {
 };
 
 interface SpinnerProps {
-  size: 'sm' | 'md';
+  size?: 'sm' | 'md';
   className?: string;
 }
 
-export function Spinner({ className, size }: SpinnerProps) {
+export function Spinner({ className, size = 'md' }: SpinnerProps) {
   return (
     <div
       className={cn(
@@ -27,4 +27,5 @@ export function Spinner({ className, size }: SpinnerProps) {
 
 Spinner.defaultProps = {
   className: '',
+  size: 'md',
 };

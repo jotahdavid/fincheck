@@ -18,5 +18,6 @@ export function useAccountsController() {
     windowWidth,
     areValuesVisible,
     toggleValueVisibility,
+    isLoading: false,
   };
 }

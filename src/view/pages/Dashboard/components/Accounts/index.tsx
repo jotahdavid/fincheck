@@ -46,7 +46,7 @@ export function Accounts() {
                 type="button"
                 onClick={toggleValueVisibility}
               >
-                <EyeIcon open={!areValuesVisible} />
+                <EyeIcon open={areValuesVisible} />
               </button>
             </div>
           </div>

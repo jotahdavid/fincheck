@@ -6,6 +6,7 @@ import { DashboardProvider } from './components/DashboardContext';
 import { Accounts } from './components/Accounts';
 import { Transactions } from './components/Transactions';
 import { Fab } from './components/Fab';
+import { NewAccountModal } from './modals/NewAccountModal';
 
 export function Dashboard() {
   useAuth();
@@ -29,6 +30,8 @@ export function Dashboard() {
         </main>
 
         <Fab />
+
+        <NewAccountModal />
       </div>
     </DashboardProvider>
   );

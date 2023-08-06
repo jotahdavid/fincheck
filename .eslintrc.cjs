@@ -27,5 +27,6 @@ module.exports = {
     'import/order': 'off',
     'react/jsx-props-no-spreading': 'off',
     'class-methods-use-this': 'off',
+    'react/jsx-no-bind': 'off',
   },
 }

@@ -5,7 +5,10 @@ import {
 
 interface DashboardContextValue {
   areValuesVisible: boolean;
+  isNewAccountModalOpen: boolean;
   toggleValueVisibility: () => void;
+  openNewAccountModal: () => void;
+  closeNewAccountModal: () => void;
 }
 
 export const DashboardContext = createContext({} as DashboardContextValue);
@@ -20,6 +23,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     return areValuesVisibleStoraged !== 'false';
   });
 
+  const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(true);
+
   const toggleValueVisibility = useCallback(() => {
     setAreValuesVisible((prevState) => {
       localStorage.setItem(LocalStorageKeys.ARE_VALUES_VISIBLE, String(!prevState));
@@ -27,10 +32,30 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     });
   }, []);
 
-  const dashboardProviderValue = useMemo(() => ({
-    areValuesVisible,
-    toggleValueVisibility,
-  }), [areValuesVisible, toggleValueVisibility]);
+  const openNewAccountModal = useCallback(() => {
+    setIsNewAccountModalOpen(true);
+  }, []);
+
+  const closeNewAccountModal = useCallback(() => {
+    setIsNewAccountModalOpen(false);
+  }, []);
+
+  const dashboardProviderValue = useMemo(
+    () => ({
+      areValuesVisible,
+      toggleValueVisibility,
+      isNewAccountModalOpen,
+      openNewAccountModal,
+      closeNewAccountModal,
+    }),
+    [
+      areValuesVisible,
+      toggleValueVisibility,
+      isNewAccountModalOpen,
+      openNewAccountModal,
+      closeNewAccountModal,
+    ],
+  );
 
   return (
     <DashboardContext.Provider value={dashboardProviderValue}>

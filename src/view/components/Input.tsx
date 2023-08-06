@@ -33,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <label
           htmlFor={id ?? randomId}
           className={cn(
-            'absolute text-xs left-[13px] top-1.5 pointer-events-none text-gray-700 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-focus:top-1.5 peer-focus:text-xs transition-all',
+            'absolute text-xs left-[13px] top-1.5 pointer-events-none text-gray-700 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-focus:top-1.5 peer-focus:text-xs transition-all select-none',
             error && 'text-red-900 opacity-80',
           )}
         >

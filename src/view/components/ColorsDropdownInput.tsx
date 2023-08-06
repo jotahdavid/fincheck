@@ -7,8 +7,10 @@ import { ColorIcon } from './icons/ColorIcon';
 import { useState } from 'react';
 
 interface ColorsDropdownInputProps {
+  value?: string;
   error?: string;
   className?: string;
+  onChange?: (color: string) => void;
 }
 
 interface Color {
@@ -33,11 +35,17 @@ const colors: Color[] = [
   { color: '#FD7E14', bg: '#FFF4E6' },
 ];
 
-export function ColorsDropdownInput({ error, className }: ColorsDropdownInputProps) {
-  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
+export function ColorsDropdownInput({
+  value, error, className, onChange,
+}: ColorsDropdownInputProps) {
+  const [selectedColor, setSelectedColor] = useState<Color | null>(() => {
+    if (!value) return null;
+    return colors.find((color) => color.color === value) ?? null;
+  });
 
   function handleSelect(color: Color) {
     setSelectedColor(color);
+    onChange?.(color.color);
   }
 
   return (
@@ -92,6 +100,8 @@ export function ColorsDropdownInput({ error, className }: ColorsDropdownInputPro
 }
 
 ColorsDropdownInput.defaultProps = {
+  value: null,
   error: '',
   className: '',
+  onChange: null,
 };

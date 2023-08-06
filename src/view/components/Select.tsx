@@ -10,19 +10,27 @@ interface SelectOption {
 }
 
 interface SelectProps {
+  value?: string;
   options: SelectOption[];
   error?: string;
   placeholder?: string;
   className?: string;
+  onChange?: (value: string) => void;
 }
 
 export function Select({
-  options, error, placeholder, className,
+  value,
+  options,
+  error,
+  placeholder,
+  className,
+  onChange,
 }: SelectProps) {
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState<string>(value ?? '');
 
-  function handleSelect(value: string) {
-    setSelectedValue(value);
+  function handleSelect(newSelectedValue: string) {
+    setSelectedValue(newSelectedValue);
+    onChange?.(newSelectedValue);
   }
 
   return (
@@ -37,7 +45,7 @@ export function Select({
           {placeholder}
         </span>
 
-        <RadixSelect.Root onValueChange={handleSelect}>
+        <RadixSelect.Root value={value} onValueChange={handleSelect}>
           <RadixSelect.Trigger
             className={cn(
               'w-full bg-white rounded-lg border border-gray-500 px-3 pt-4 h-[52px] text-gray-800 focus:border-gray-800 outline-none transition-all text-left relative',
@@ -89,7 +97,9 @@ export function Select({
 }
 
 Select.defaultProps = {
+  value: null,
   error: '',
   placeholder: '',
   className: '',
+  onChange: null,
 };

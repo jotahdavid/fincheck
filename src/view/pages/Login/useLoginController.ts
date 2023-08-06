@@ -42,7 +42,9 @@ export function useLoginController() {
     try {
       const { accessToken } = await mutateAsync(data);
       signIn(accessToken);
-      toast.success('Você foi autenticado com sucesso!');
+      setTimeout(() => {
+        toast.success('Você foi autenticado com sucesso!');
+      }, 1000);
     } catch {
       toast.error('Credenciais inválidas!');
     }

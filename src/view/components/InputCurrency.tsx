@@ -17,6 +17,7 @@ export function InputCurrency({ defaultValue, className }: InputCurrencyProps) {
         className,
       )}
       defaultValue={defaultValue}
+      decimalScale={2}
     />
   );
 }

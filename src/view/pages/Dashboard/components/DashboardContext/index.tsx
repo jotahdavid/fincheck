@@ -6,9 +6,13 @@ import {
 interface DashboardContextValue {
   areValuesVisible: boolean;
   isNewAccountModalOpen: boolean;
+  isNewTransactionModalOpen: boolean;
+  newTransactionType: 'INCOME' | 'EXPENSE' | null;
   toggleValueVisibility: () => void;
   openNewAccountModal: () => void;
   closeNewAccountModal: () => void;
+  openNewTransactionModal: (type: 'INCOME' | 'EXPENSE') => void;
+  closeNewTransactionModal: () => void;
 }
 
 export const DashboardContext = createContext({} as DashboardContextValue);
@@ -23,7 +27,9 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     return areValuesVisibleStoraged !== 'false';
   });
 
-  const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(true);
+  const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(false);
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(true);
+  const [newTransactionType, setNewTransactionType] = useState<'INCOME' | 'EXPENSE' | null>(null);
 
   const toggleValueVisibility = useCallback(() => {
     setAreValuesVisible((prevState) => {
@@ -40,6 +46,16 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     setIsNewAccountModalOpen(false);
   }, []);
 
+  const openNewTransactionModal = useCallback((type: 'INCOME' | 'EXPENSE') => {
+    setNewTransactionType(type);
+    setIsNewTransactionModalOpen(true);
+  }, []);
+
+  const closeNewTransactionModal = useCallback(() => {
+    setNewTransactionType(null);
+    setIsNewTransactionModalOpen(false);
+  }, []);
+
   const dashboardProviderValue = useMemo(
     () => ({
       areValuesVisible,
@@ -47,6 +63,10 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       isNewAccountModalOpen,
       openNewAccountModal,
       closeNewAccountModal,
+      isNewTransactionModalOpen,
+      openNewTransactionModal,
+      closeNewTransactionModal,
+      newTransactionType,
     }),
     [
       areValuesVisible,
@@ -54,6 +74,10 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       isNewAccountModalOpen,
       openNewAccountModal,
       closeNewAccountModal,
+      isNewTransactionModalOpen,
+      openNewTransactionModal,
+      closeNewTransactionModal,
+      newTransactionType,
     ],
   );
 

@@ -20,7 +20,7 @@ export function NewAccountModal() {
       onClose={closeNewAccountModal}
     >
       <form onSubmit={(event) => event.preventDefault()}>
-        <div className="">
+        <div>
           <span className="text-gray-600 tracking-[-0.5px] text-sm">Saldo</span>
 
           <div className="flex items-center gap-2">

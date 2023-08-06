@@ -13,7 +13,7 @@ function DropdownMenuRoot({ children }: { children: ReactNode }) {
 
 function DropdownMenuTrigger({ children }: { children: ReactNode }) {
   return (
-    <RadixDropdownMenu.Trigger className="outline-none">
+    <RadixDropdownMenu.Trigger asChild className="outline-none">
       {children}
     </RadixDropdownMenu.Trigger>
   );

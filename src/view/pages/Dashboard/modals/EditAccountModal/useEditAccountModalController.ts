@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -27,6 +28,8 @@ export function useEditAccountModalController() {
     accountBeingEdited,
   } = useDashboard();
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -43,16 +46,27 @@ export function useEditAccountModalController() {
   });
 
   const queryClient = useQueryClient();
-  const { isLoading, mutateAsync } = useMutation(async (data: BankAccountEditParams) => {
+  const {
+    isLoading,
+    mutateAsync: updateAccount,
+  } = useMutation(async (data: BankAccountEditParams) => {
     await delay();
     return bankAccountsService.edit(data);
+  });
+
+  const {
+    isLoading: isLoadingDelete,
+    mutateAsync: removeAccount,
+  } = useMutation(async (bankAccountId: string) => {
+    await delay();
+    return bankAccountsService.remove(bankAccountId);
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!accountBeingEdited) return;
 
     try {
-      await mutateAsync({
+      await updateAccount({
         ...data,
         id: accountBeingEdited.id,
         initialBalance: currencyRealToNumber(data.initialBalance),
@@ -66,6 +80,28 @@ export function useEditAccountModalController() {
     }
   };
 
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
+  async function handleDeleteAccount() {
+    if (!accountBeingEdited) return;
+
+    try {
+      await removeAccount(accountBeingEdited.id);
+
+      toast.success('Conta excluída com sucesso!');
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
+      closeEditAccountModal();
+    } catch (err) {
+      toast.error('Erro ao excluir a conta');
+    }
+  }
+
   return {
     isEditAccountModalOpen,
     closeEditAccountModal,
@@ -74,5 +110,10 @@ export function useEditAccountModalController() {
     handleSubmit: handleSubmit(onSubmit),
     errors,
     isLoading,
+    isDeleteModalOpen,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    handleDeleteAccount,
+    isLoadingDelete,
   };
 }

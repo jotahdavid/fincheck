@@ -6,6 +6,8 @@ import { Input } from '@view/components/Input';
 import { Select } from '@view/components/Select';
 import { ColorsDropdownInput } from '@view/components/ColorsDropdownInput';
 import { Button } from '@view/components/Button';
+import { TrashIcon } from '@view/components/icons/TrashIcon';
+import { ConfirmDeleteModal } from '@view/components/ConfirmDeleteModal';
 import { cn } from '@app/utils/cn';
 
 import { useEditAccountModalController } from './useEditAccountModalController';
@@ -19,13 +21,40 @@ export function EditAccountModal() {
     handleSubmit,
     errors,
     isLoading,
+    isDeleteModalOpen,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    handleDeleteAccount,
+    isLoadingDelete,
   } = useEditAccountModalController();
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        open
+        title="Tem certeza que deseja excluir esta conta?"
+        description="Ao excluir a conta, também serão excluídos todos os registros de receita e despesas relacionados."
+        onConfirm={handleDeleteAccount}
+        onClose={handleCloseDeleteModal}
+        isLoading={isLoadingDelete}
+      />
+    );
+  }
 
   return (
     <Modal
       open={isEditAccountModalOpen}
       title="Editar Conta"
       onClose={closeEditAccountModal}
+      rightAction={(
+        <button
+          type="button"
+          className="stroke-black p-3 rounded-full hover:bg-red-100 transition-colors"
+          onClick={handleOpenDeleteModal}
+        >
+          <TrashIcon className="w-6 h-6" />
+        </button>
+      )}
     >
       <form onSubmit={handleSubmit}>
         <div>

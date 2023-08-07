@@ -12,6 +12,7 @@ import { TransactionCard } from './TransactionCard';
 import { useTransactionsController } from './useTransactionsController';
 import { TransactionTypeDropdown } from './TransactionTypeDropdown';
 import { FiltersModal } from './FiltersModal';
+import { EditTransactionModal } from '../../modals/EditTransactionModal';
 
 export function Transactions() {
   const {
@@ -25,6 +26,10 @@ export function Transactions() {
     handleChangeFilter,
     transactionFilters,
     handleApplyFilters,
+    isEditModalOpen,
+    handleOpenEditModal,
+    handleCloseEditModal,
+    transactionBeingEdited,
   } = useTransactionsController();
 
   const hasTransactions = transactions.length > 0;
@@ -99,16 +104,29 @@ export function Transactions() {
               </div>
             )}
 
-            {(hasTransactions && !isLoading) && (transactions.map((transaction) => (
-              <TransactionCard
-                name={transaction.name}
-                date={formatDate(new Date(transaction.date))}
-                type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
-                icon={transaction.category?.icon}
-                value={transaction.value}
-                isValueVisible={areValuesVisible}
-              />
-            )))}
+            {(hasTransactions && !isLoading) && (
+              <>
+                {transactionBeingEdited && (
+                  <EditTransactionModal
+                    open={isEditModalOpen}
+                    onClose={handleCloseEditModal}
+                    transaction={transactionBeingEdited}
+                  />
+                )}
+
+                {transactions.map((transaction) => (
+                  <TransactionCard
+                    name={transaction.name}
+                    date={formatDate(new Date(transaction.date))}
+                    type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
+                    icon={transaction.category?.icon}
+                    value={transaction.value}
+                    isValueVisible={areValuesVisible}
+                    onClick={() => handleOpenEditModal(transaction)}
+                  />
+                ))}
+              </>
+            )}
           </div>
         </>
       )}

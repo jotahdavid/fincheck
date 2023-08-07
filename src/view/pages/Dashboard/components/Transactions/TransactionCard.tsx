@@ -9,13 +9,18 @@ interface TransactionCardProps {
   value: number;
   icon?: string;
   isValueVisible?: boolean;
+  onClick?: () => void;
 }
 
 export function TransactionCard({
-  name, date, type, value, icon, isValueVisible = true,
+  name, date, type, value, icon, isValueVisible = true, onClick,
 }: TransactionCardProps) {
   return (
-    <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
+    <button
+      type="button"
+      className="w-full text-left bg-white p-4 rounded-2xl flex items-center justify-between gap-4"
+      onClick={onClick}
+    >
       <div className="flex-1 flex items-center gap-3">
         <CategoryIcon
           type={type}
@@ -42,11 +47,12 @@ export function TransactionCard({
         {type === 'income' && '+ '}
         {formatCurrency(value)}
       </span>
-    </div>
+    </button>
   );
 }
 
 TransactionCard.defaultProps = {
   icon: null,
   isValueVisible: true,
+  onClick: null,
 };

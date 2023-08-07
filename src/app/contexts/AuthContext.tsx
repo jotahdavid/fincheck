@@ -7,9 +7,11 @@ import { toast } from 'react-hot-toast';
 import { LocalStorageKeys } from '@app/config/LocalStorageKeys';
 import { usersService } from '@app/services/usersService';
 import { LaunchScreen } from '@view/components/LaunchScreen';
+import { User } from '@app/entities/User';
 
 interface AuthProviderValue {
   signedIn: boolean;
+  user?: User;
   signIn: (accessToken: string) => void;
   signOut: () => void;
 }
@@ -27,7 +29,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const {
-    isError, isFetching, isSuccess, remove,
+    data,
+    isError,
+    isFetching,
+    isSuccess,
+    remove,
   } = useQuery({
     queryKey: ['users', 'me'],
     queryFn: () => usersService.me(),
@@ -54,10 +60,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [isError, signOut]);
 
   const authProviderValue = useMemo(() => ({
+    user: data,
     signedIn: isSuccess && signedIn,
     signIn,
     signOut,
-  }), [isSuccess, signedIn, signIn, signOut]);
+  }), [data, isSuccess, signedIn, signIn, signOut]);
 
   return (
     <AuthContext.Provider value={authProviderValue}>

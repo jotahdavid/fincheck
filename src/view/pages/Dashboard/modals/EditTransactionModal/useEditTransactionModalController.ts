@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -43,6 +43,8 @@ export function useEditTransactionModalController(
     },
   });
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const { accounts } = useBankAccounts();
   const { categories } = useCategories();
 
@@ -55,6 +57,16 @@ export function useEditTransactionModalController(
     mutationFn: async (data: TransactionEditParams) => {
       await delay();
       return transactionsService.edit(data);
+    },
+  });
+
+  const {
+    isLoading: isLoadingDelete,
+    mutateAsync: removeTransaction,
+  } = useMutation({
+    mutationFn: async (transactionId: string) => {
+      await delay();
+      return transactionsService.remove(transactionId);
     },
   });
 
@@ -82,6 +94,32 @@ export function useEditTransactionModalController(
     }
   };
 
+  async function handleDeleteTransaction() {
+    if (!transaction) return;
+
+    try {
+      await removeTransaction(transaction.id);
+
+      toast.success(
+        `${transaction.type === 'EXPENSE' ? 'Despesa' : 'Receita'} excluída com sucesso!`,
+      );
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      onClose?.();
+    } catch (err) {
+      toast.error(
+        `Erro ao excluir ${transaction.type === 'EXPENSE' ? 'despesa' : 'receita'}.`,
+      );
+    }
+  }
+
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
   return {
     register,
     handleSubmit: handleSubmit(onSubmit),
@@ -89,6 +127,11 @@ export function useEditTransactionModalController(
     control,
     accounts,
     categories: filteredCategories,
-    isLoadingEdit: isLoading,
+    isLoading,
+    isDeleteModalOpen,
+    handleDeleteTransaction,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    isLoadingDelete,
   };
 }

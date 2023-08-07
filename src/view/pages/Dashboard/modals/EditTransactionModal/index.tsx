@@ -8,6 +8,8 @@ import { Button } from '@view/components/Button';
 import { DatePickerInput } from '@view/components/DatePickerInput';
 import { cn } from '@app/utils/cn';
 import { Transaction } from '@app/entities/Transaction';
+import { ConfirmDeleteModal } from '@view/components/ConfirmDeleteModal';
+import { TrashIcon } from '@view/components/icons/TrashIcon';
 
 import { useEditTransactionModalController } from './useEditTransactionModalController';
 
@@ -29,15 +31,42 @@ export function EditTransactionModal({
     errors,
     accounts,
     categories,
+    handleDeleteTransaction,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleOpenDeleteModal,
+    isLoading,
+    isLoadingDelete,
   } = useEditTransactionModalController(transaction ?? null, onClose);
 
   const isExpense = transaction?.type === 'EXPENSE';
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        open={isDeleteModalOpen}
+        onConfirm={handleDeleteTransaction}
+        onClose={handleCloseDeleteModal}
+        title="Tem certeza que deseja excluir esta despesa?"
+        isLoading={isLoadingDelete}
+      />
+    );
+  }
 
   return (
     <Modal
       open={open}
       title={isExpense ? 'Editar Despesa' : 'Editar Receita'}
       onClose={onClose}
+      rightAction={(
+        <button
+          type="button"
+          className="stroke-black p-3 rounded-full hover:bg-red-100 transition-colors"
+          onClick={handleOpenDeleteModal}
+        >
+          <TrashIcon className="w-6 h-6" />
+        </button>
+      )}
     >
       <form onSubmit={handleSubmit}>
         <div>
@@ -127,7 +156,7 @@ export function EditTransactionModal({
           />
         </div>
 
-        <Button type="submit" className="w-full mt-6">
+        <Button type="submit" className="w-full mt-6" isLoading={isLoading}>
           Salvar
         </Button>
       </form>

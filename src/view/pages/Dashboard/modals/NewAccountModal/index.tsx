@@ -18,6 +18,7 @@ export function NewAccountModal() {
     control,
     handleSubmit,
     errors,
+    isLoading,
   } = useNewAccountModalController();
 
   return (
@@ -42,7 +43,6 @@ export function NewAccountModal() {
             <Controller
               control={control}
               name="initialBalance"
-              defaultValue="0,00"
               render={({ field: { onChange, value } }) => (
                 <InputCurrency
                   className={cn(
@@ -68,6 +68,7 @@ export function NewAccountModal() {
           <Controller
             control={control}
             name="type"
+            defaultValue="CHECKING"
             render={({ field: { onChange, value } }) => (
               <Select
                 placeholder="Tipo"
@@ -106,7 +107,7 @@ export function NewAccountModal() {
           />
         </div>
 
-        <Button type="submit" className="w-full mt-6">
+        <Button type="submit" className="w-full mt-6" isLoading={isLoading}>
           Criar
         </Button>
       </form>

@@ -103,32 +103,16 @@ export function Accounts() {
                   />
                 </div>
 
-                <SwiperSlide>
-                  <AccountCard
-                    name="Nubank"
-                    color="#7950F2"
-                    balance={123.45}
-                    type="CHECKING"
-                  />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <AccountCard
-                    name="XP Investimentos"
-                    color="#333"
-                    balance={300}
-                    type="INVESTMENT"
-                  />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <AccountCard
-                    name="Carteira"
-                    color="#14a314"
-                    balance={500}
-                    type="CASH"
-                  />
-                </SwiperSlide>
+                {accounts.map((account) => (
+                  <SwiperSlide key={account.id}>
+                    <AccountCard
+                      name={account.name}
+                      color={account.color}
+                      balance={account.currentBalance}
+                      type={account.type}
+                    />
+                  </SwiperSlide>
+                ))}
               </Swiper>
             )}
           </div>

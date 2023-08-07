@@ -2,9 +2,15 @@ import { useMemo } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 
 import { useBankAccounts } from '@app/hooks/useBankAccounts';
 import { useCategories } from '@app/hooks/useCategories';
+import { delay } from '@app/utils/delay';
+import { transactionsService } from '@app/services/transactionsService';
+import { TransactionCreateParams } from '@app/services/transactionsService/create';
+import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
 
 import { useDashboard } from '../../components/DashboardContext/useDashboard';
 
@@ -30,7 +36,7 @@ export function useNewTransactionModalController() {
     handleSubmit,
     formState: { errors },
     control,
-    // reset,
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -40,15 +46,45 @@ export function useNewTransactionModalController() {
   });
 
   const { accounts } = useBankAccounts();
-
   const { categories } = useCategories();
+
+  const queryClient = useQueryClient();
+  const {
+    isLoading: isLoadingCreate,
+    mutateAsync: createTransaction,
+  } = useMutation({
+    mutationFn: async (data: TransactionCreateParams) => {
+      await delay();
+      return transactionsService.create(data);
+    },
+  });
 
   const filteredCategories = useMemo(() => (
     categories.filter((category) => category.type === newTransactionType)
   ), [categories, newTransactionType]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
+    if (!newTransactionType) return;
+
+    try {
+      await createTransaction({
+        ...data,
+        date: data.date.toISOString(),
+        type: newTransactionType,
+        value: currencyRealToNumber(data.value),
+      });
+
+      toast.success(
+        `${newTransactionType === 'EXPENSE' ? 'Despesa' : 'Receita'} cadastrada com sucesso!`,
+      );
+      reset();
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      closeNewTransactionModal();
+    } catch (err) {
+      toast.error(
+        `Erro ao cadastrar a ${newTransactionType === 'EXPENSE' ? 'despesa' : 'receita'}.`,
+      );
+    }
   };
 
   return {
@@ -61,5 +97,6 @@ export function useNewTransactionModalController() {
     control,
     accounts,
     categories: filteredCategories,
+    isLoadingCreate,
   };
 }

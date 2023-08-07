@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FilterIcon } from '@view/components/icons/FilterIcon';
 import { MONTHS } from '@app/config/constants';
 import { Spinner } from '@view/components/Spinner';
+import { formatDate } from '@app/utils/formatDate';
 import emptyStateSrc from '@assets/empty-state.svg';
 
 import { SliderOption } from './SliderOption';
@@ -87,25 +88,16 @@ export function Transactions() {
               </div>
             )}
 
-            {(hasTransactions && !isLoading) && (
-              <>
-                <TransactionCard
-                  name="Almoço"
-                  date="04/06/2023"
-                  type="expense"
-                  value={40}
-                  isValueVisible={areValuesVisible}
-                />
-
-                <TransactionCard
-                  name="Salário"
-                  date="05/06/2023"
-                  type="income"
-                  value={2210}
-                  isValueVisible={areValuesVisible}
-                />
-              </>
-            )}
+            {(hasTransactions && !isLoading) && (transactions.map((transaction) => (
+              <TransactionCard
+                name={transaction.name}
+                date={formatDate(new Date(transaction.date))}
+                type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
+                icon={transaction.category?.icon}
+                value={transaction.value}
+                isValueVisible={areValuesVisible}
+              />
+            )))}
           </div>
         </>
       )}

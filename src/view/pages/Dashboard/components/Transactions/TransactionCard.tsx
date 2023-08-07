@@ -7,16 +7,20 @@ interface TransactionCardProps {
   date: string;
   type: 'income' | 'expense';
   value: number;
+  icon?: string;
   isValueVisible?: boolean;
 }
 
 export function TransactionCard({
-  name, date, type, value, isValueVisible = true,
+  name, date, type, value, icon, isValueVisible = true,
 }: TransactionCardProps) {
   return (
     <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
       <div className="flex-1 flex items-center gap-3">
-        <CategoryIcon type={type} />
+        <CategoryIcon
+          type={type}
+          category={icon}
+        />
 
         <div>
           <strong className="font-bold tracking-[-0.5px] block">
@@ -35,6 +39,7 @@ export function TransactionCard({
       )}
       >
         {type === 'expense' && '- '}
+        {type === 'income' && '+ '}
         {formatCurrency(value)}
       </span>
     </div>
@@ -42,5 +47,6 @@ export function TransactionCard({
 }
 
 TransactionCard.defaultProps = {
+  icon: null,
   isValueVisible: true,
 };

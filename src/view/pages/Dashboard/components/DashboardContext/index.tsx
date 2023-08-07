@@ -1,20 +1,22 @@
-import { LocalStorageKeys } from '@app/config/LocalStorageKeys';
-import { BankAccount } from '@app/entities/BankAccount';
 import {
   ReactNode, createContext, useCallback, useMemo, useState,
 } from 'react';
+
+import { LocalStorageKeys } from '@app/config/LocalStorageKeys';
+import { BankAccount } from '@app/entities/BankAccount';
+import { TransactionType } from '@app/entities/Transaction';
 
 interface DashboardContextValue {
   areValuesVisible: boolean;
   isNewAccountModalOpen: boolean;
   isNewTransactionModalOpen: boolean;
-  newTransactionType: 'INCOME' | 'EXPENSE' | null;
+  newTransactionType: TransactionType | null;
   isEditAccountModalOpen: boolean;
   accountBeingEdited: BankAccount | null;
   toggleValueVisibility: () => void;
   openNewAccountModal: () => void;
   closeNewAccountModal: () => void;
-  openNewTransactionModal: (type: 'INCOME' | 'EXPENSE') => void;
+  openNewTransactionModal: (type: TransactionType) => void;
   closeNewTransactionModal: () => void;
   openEditAccountModal: (bankAccount: BankAccount) => void;
   closeEditAccountModal: () => void;
@@ -34,7 +36,7 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
 
   const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(false);
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
-  const [newTransactionType, setNewTransactionType] = useState<'INCOME' | 'EXPENSE' | null>(null);
+  const [newTransactionType, setNewTransactionType] = useState<TransactionType | null>(null);
 
   const [isEditAccountModalOpen, setIsEditAccountModalOpen] = useState(false);
   const [accountBeingEdited, setAcccountBeingEdited] = useState<BankAccount | null>(null);
@@ -54,7 +56,7 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     setIsNewAccountModalOpen(false);
   }, []);
 
-  const openNewTransactionModal = useCallback((type: 'INCOME' | 'EXPENSE') => {
+  const openNewTransactionModal = useCallback((type: TransactionType) => {
     setNewTransactionType(type);
     setIsNewTransactionModalOpen(true);
   }, []);

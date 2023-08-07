@@ -2,7 +2,7 @@ import { iconsMap } from './iconsMap';
 
 interface CategoryIconProps {
   type: 'income' | 'expense';
-  category?: keyof (typeof iconsMap.expense & typeof iconsMap.income);
+  category?: string;
 }
 
 export function CategoryIcon({ type, category }: CategoryIconProps) {

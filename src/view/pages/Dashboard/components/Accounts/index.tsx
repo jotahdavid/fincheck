@@ -4,12 +4,12 @@ import { PlusIcon } from '@radix-ui/react-icons';
 
 import { EyeIcon } from '@view/components/icons/EyeIcon';
 import { formatCurrency } from '@app/utils/formatCurrency';
+import { cn } from '@app/utils/cn';
+import { Spinner } from '@view/components/Spinner';
 
 import { AccountCard } from './AccountCard';
 import { AccountsSliderNavigation } from './AccountsSliderNavigation';
 import { useAccountsController } from './useAccountsController';
-import { cn } from '@app/utils/cn';
-import { Spinner } from '@view/components/Spinner';
 
 export function Accounts() {
   const {
@@ -21,6 +21,7 @@ export function Accounts() {
     isLoading,
     accounts,
     openNewAccountModal,
+    currentBalance,
   } = useAccountsController();
 
   return (
@@ -42,7 +43,7 @@ export function Accounts() {
                 !areValuesVisible && 'blur-md select-none',
               )}
               >
-                {formatCurrency(1000)}
+                {formatCurrency(currentBalance)}
               </strong>
               <button
                 className="w-8 h-8 flex items-center justify-center"

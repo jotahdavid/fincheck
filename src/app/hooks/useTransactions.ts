@@ -2,17 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 
 import { transactionsService } from '@app/services/transactionsService';
 import { delay } from '@app/utils/delay';
+import { TransactionFilters } from '@app/services/transactionsService/getAll';
 
-export function useTransactions() {
-  const { data = [], isFetching, isInitialLoading } = useQuery({
+export function useTransactions(filters: TransactionFilters) {
+  const {
+    data = [],
+    isFetching,
+    isInitialLoading,
+    refetch,
+  } = useQuery({
     queryKey: ['transactions'],
     queryFn: async () => {
       await delay();
-      const date = new Date();
-      return transactionsService.getAll({
-        month: date.getMonth(),
-        year: date.getFullYear(),
-      });
+      return transactionsService.getAll(filters);
     },
   });
 
@@ -20,5 +22,6 @@ export function useTransactions() {
     transactions: data,
     isInitialLoading,
     isLoading: isFetching,
+    refetchTransactions: refetch,
   };
 }

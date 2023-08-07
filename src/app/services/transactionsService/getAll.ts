@@ -1,12 +1,14 @@
 import { Transaction, TransactionType } from '@app/entities/Transaction';
 import httpClient from '@app/services/httpClient';
 
-interface TransactionGetAllParams {
+export interface TransactionFilters {
   month: number;
   year: number;
   bankAccountId?: string;
   type?: TransactionType;
 }
+
+interface TransactionGetAllParams extends TransactionFilters {}
 
 type TransactionGetAllResponse = Transaction[];
 

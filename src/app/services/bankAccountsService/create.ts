@@ -1,10 +1,11 @@
+import { BankAccountType } from '@app/entities/BankAccount';
 import httpClient from '@app/services/httpClient';
 
 export interface BankAccountCreateParams {
   name: string;
   initialBalance: number;
   color: string;
-  type: 'CHECKING' | 'INVESTMENT' | 'CASH';
+  type: BankAccountType;
 }
 
 interface BankAccountCreateResponse {}

@@ -1,4 +1,5 @@
 import { LocalStorageKeys } from '@app/config/LocalStorageKeys';
+import { BankAccount } from '@app/entities/BankAccount';
 import {
   ReactNode, createContext, useCallback, useMemo, useState,
 } from 'react';
@@ -8,11 +9,15 @@ interface DashboardContextValue {
   isNewAccountModalOpen: boolean;
   isNewTransactionModalOpen: boolean;
   newTransactionType: 'INCOME' | 'EXPENSE' | null;
+  isEditAccountModalOpen: boolean;
+  accountBeingEdited: BankAccount | null;
   toggleValueVisibility: () => void;
   openNewAccountModal: () => void;
   closeNewAccountModal: () => void;
   openNewTransactionModal: (type: 'INCOME' | 'EXPENSE') => void;
   closeNewTransactionModal: () => void;
+  openEditAccountModal: (bankAccount: BankAccount) => void;
+  closeEditAccountModal: () => void;
 }
 
 export const DashboardContext = createContext({} as DashboardContextValue);
@@ -30,6 +35,9 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
   const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(false);
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
   const [newTransactionType, setNewTransactionType] = useState<'INCOME' | 'EXPENSE' | null>(null);
+
+  const [isEditAccountModalOpen, setIsEditAccountModalOpen] = useState(true);
+  const [accountBeingEdited, setAcccountBeingEdited] = useState<BankAccount | null>(null);
 
   const toggleValueVisibility = useCallback(() => {
     setAreValuesVisible((prevState) => {
@@ -56,6 +64,16 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     setIsNewTransactionModalOpen(false);
   }, []);
 
+  const openEditAccountModal = useCallback((bankAccount: BankAccount) => {
+    setAcccountBeingEdited(bankAccount);
+    setIsEditAccountModalOpen(true);
+  }, []);
+
+  const closeEditAccountModal = useCallback(() => {
+    setIsEditAccountModalOpen(false);
+    setAcccountBeingEdited(null);
+  }, []);
+
   const dashboardProviderValue = useMemo(
     () => ({
       areValuesVisible,
@@ -67,6 +85,10 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       openNewTransactionModal,
       closeNewTransactionModal,
       newTransactionType,
+      isEditAccountModalOpen,
+      openEditAccountModal,
+      closeEditAccountModal,
+      accountBeingEdited,
     }),
     [
       areValuesVisible,
@@ -78,6 +100,10 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       openNewTransactionModal,
       closeNewTransactionModal,
       newTransactionType,
+      isEditAccountModalOpen,
+      openEditAccountModal,
+      closeEditAccountModal,
+      accountBeingEdited,
     ],
   );
 

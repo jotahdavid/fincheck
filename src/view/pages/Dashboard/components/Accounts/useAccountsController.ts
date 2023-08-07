@@ -13,6 +13,7 @@ export function useAccountsController() {
     areValuesVisible,
     toggleValueVisibility,
     openNewAccountModal,
+    openEditAccountModal,
   } = useDashboard();
 
   const [sliderState, setSliderState] = useState({
@@ -43,5 +44,6 @@ export function useAccountsController() {
     accounts: data,
     openNewAccountModal,
     currentBalance,
+    openEditAccountModal,
   };
 }

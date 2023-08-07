@@ -10,6 +10,7 @@ export function useBankAccounts() {
       await delay();
       return bankAccountsService.getAll();
     },
+    staleTime: Infinity,
   });
 
   return {

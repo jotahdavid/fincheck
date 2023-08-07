@@ -86,6 +86,7 @@ export function useEditTransactionModalController(
         `${transaction.type === 'EXPENSE' ? 'Despesa' : 'Receita'} atualizada com sucesso!`,
       );
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
       onClose?.();
     } catch (err) {
       toast.error(
@@ -104,6 +105,7 @@ export function useEditTransactionModalController(
         `${transaction.type === 'EXPENSE' ? 'Despesa' : 'Receita'} excluída com sucesso!`,
       );
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
       onClose?.();
     } catch (err) {
       toast.error(

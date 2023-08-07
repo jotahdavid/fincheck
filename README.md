@@ -1,27 +1,45 @@
-# React + TypeScript + Vite
+<h1 align="center">
+  <img alt="fincheck" title="fincheck" src=".github/fincheck-logo.svg" width="220px">
+</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src=".github/thumbnail.png" width="100%">
+</p>
 
-Currently, two official plugins are available:
+<br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias
 
-## Expanding the ESLint configuration
+Este projeto foi desenvolvido com as seguintes tecnologias:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Vite
+- React
+- TypeScript
+- TailwindCSS
+- React Hook Forms (com Zod)
+- React Query
+- Radix UI (components e icones)
+- React Hot Toast
+- Swiper
 
-- Configure the top-level `parserOptions` property like this:
+## 💻 Projeto
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+O Fincheck é uma plataforma simples e intuitiva para que você possa controlar suas finanças pessoais.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Este projeto tem outra parte: a API ([BackEnd](https://github.com/jotahdavid/fincheck-api)) que realiza a autenticação do usuário, além de trazer, salvar e atualizar transações, contas e categorias.
+
+## 📥 Instalando o Projeto
+
+### Programas necessários
+
+- Git **(ou baixe o repositório como .zip)**
+- Node **(preferência na versão v18.13.0 ou maior)**
+- Projeto [Fincheck (API)](https://github.com/jotahdavid/fincheck-api) rodando na máquina
+
+### Etapas
+
+- Vá até a pasta do projeto `fincheck` e rode o comando `yarn` ou `npm install` para instalar as dependências do projeto;
+- Crie o arquivo `.env` na raíz do projeto e adicione as variáveis necessárias como mostra no arquivo de exemplo: `.env.example`;
+- Na variável de ambiente `VITE_API_URL`, coloque a URL do projeto [Fincheck (API)](https://github.com/jotahdavid/fincheck-api) em execução;
+- Rode o comando de build `yarn build` ou `npm run build`;
+- Por fim, rode o projeto com o comando `yarn preview` ou `npm run preview` e abra o link que aparece no terminal em seu navegador;

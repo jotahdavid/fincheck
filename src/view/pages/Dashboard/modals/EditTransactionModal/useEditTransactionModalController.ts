@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 
 import { useBankAccounts } from '@app/hooks/useBankAccounts';
 import { useCategories } from '@app/hooks/useCategories';
@@ -11,7 +12,7 @@ import { delay } from '@app/utils/delay';
 import { transactionsService } from '@app/services/transactionsService';
 import { TransactionEditParams } from '@app/services/transactionsService/edit';
 import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
-import { toast } from 'react-hot-toast';
+import { formatCurrency } from '@app/utils/formatCurrency';
 
 const schema = z.object({
   value: z.string().nonempty('Informe o valor'),
@@ -35,7 +36,7 @@ export function useEditTransactionModalController(
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      value: String(transaction?.value),
+      value: formatCurrency(transaction?.value ?? 0),
       name: transaction?.name,
       categoryId: transaction?.categoryId,
       bankAccountId: transaction?.bankAccountId,

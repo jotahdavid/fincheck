@@ -9,6 +9,7 @@ import { delay } from '@app/utils/delay';
 import { bankAccountsService } from '@app/services/bankAccountsService';
 import { BankAccountEditParams } from '@app/services/bankAccountsService/edit';
 import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
+import { formatCurrency } from '@app/utils/formatCurrency';
 
 import { useDashboard } from '../../components/DashboardContext/useDashboard';
 
@@ -41,7 +42,7 @@ export function useEditAccountModalController() {
       color: accountBeingEdited?.color,
       name: accountBeingEdited?.name,
       type: accountBeingEdited?.type,
-      initialBalance: String(accountBeingEdited?.initialBalance ?? '0,00'),
+      initialBalance: accountBeingEdited ? formatCurrency(accountBeingEdited.initialBalance) : '0,00',
     },
   });
 

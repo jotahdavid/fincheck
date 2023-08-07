@@ -123,6 +123,7 @@ export function Transactions() {
                     value={transaction.value}
                     isValueVisible={areValuesVisible}
                     onClick={() => handleOpenEditModal(transaction)}
+                    key={transaction.id}
                   />
                 ))}
               </>

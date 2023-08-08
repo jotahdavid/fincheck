@@ -14,7 +14,15 @@ import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
 import { useDashboard } from '../../components/DashboardContext/useDashboard';
 
 const schema = z.object({
-  value: z.string().nonempty('Informe o valor'),
+  value: z.string()
+    .nonempty('Informe o valor')
+    .refine(
+      (val) => {
+        const number = currencyRealToNumber(val);
+        return number > 0;
+      },
+      'Valor tem que ser maior que 0',
+    ),
   name: z.string().nonempty('Informe o nome'),
   categoryId: z.string().nonempty('Informe a categoria'),
   bankAccountId: z.string().nonempty('Informe a conta'),

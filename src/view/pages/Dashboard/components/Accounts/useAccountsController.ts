@@ -1,9 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useWindowWidth } from '@app/hooks/useWindowWidth';
 import { useBankAccounts } from '@app/hooks/useBankAccounts';
 
 import { useDashboard } from '../DashboardContext/useDashboard';
+
+interface SlideState {
+  isBeginning: boolean | null;
+  isEnd: boolean | null;
+}
 
 export function useAccountsController() {
   const windowWidth = useWindowWidth();
@@ -14,12 +19,21 @@ export function useAccountsController() {
     openEditAccountModal,
   } = useDashboard();
 
-  const [sliderState, setSliderState] = useState({
-    isBeginning: true,
-    isEnd: false,
+  const [sliderState, setSliderState] = useState<SlideState>({
+    isBeginning: null,
+    isEnd: null,
   });
 
   const { accounts, isFetching } = useBankAccounts();
+
+  useEffect(() => {
+    if (isFetching) {
+      setSliderState({
+        isBeginning: null,
+        isEnd: null,
+      });
+    }
+  }, [isFetching]);
 
   const currentBalance = useMemo(() => (
     accounts.reduce((total, account) => account.currentBalance + total, 0)

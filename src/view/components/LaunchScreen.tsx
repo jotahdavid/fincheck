@@ -14,9 +14,9 @@ export function LaunchScreen({ isLoading }: LaunchScreenProps) {
       enter="transition-opacity duration-75"
       enterFrom="opacity-0"
       enterTo="opacity-100"
-      leave="transition-opacity duration-150"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
+      leave="transition-opacity duration-150 relative z-10"
+      leaveFrom="opacity-100 relative z-10"
+      leaveTo="opacity-0 relative z-10"
     >
       <div className="fixed inset-0 flex flex-col justify-center items-center gap-y-4 bg-teal-900 text-white gap-0">
         <Logo className="h-10" />

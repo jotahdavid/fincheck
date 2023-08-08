@@ -21,7 +21,7 @@ export function Fab() {
           </button>
         </DropdownMenu.Trigger>
 
-        <DropdownMenu.Content className="mr-4">
+        <DropdownMenu.Content className="mr-4" container={document.getElementById('radix-root')}>
           <DropdownMenu.Item className="gap-2" onSelect={() => openNewTransactionModal('EXPENSE')}>
             <CategoryIcon type="expense" />
             Nova Despesa

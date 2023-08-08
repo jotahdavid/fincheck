@@ -88,7 +88,7 @@ export function Transactions() {
             </div>
           </header>
 
-          <div className="mt-4 space-y-2 flex-1 overflow-y-auto">
+          <div className="mt-4 space-y-2 flex-1 overflow-y-auto min-h-[240px] md:min-h-[none]">
             {isLoading && (
               <div className="h-full flex flex-col items-center justify-center">
                 <Spinner className="text-teal-900 w-10 h-10" />

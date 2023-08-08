@@ -1,4 +1,3 @@
-import { useAuth } from '@app/hooks/useAuth';
 import { Logo } from '@view/components/Logo';
 import { UserMenu } from '@view/components/UserMenu';
 
@@ -11,8 +10,6 @@ import { NewTransactionModal } from './modals/NewTransactionModal';
 import { EditAccountModal } from './modals/EditAccountModal';
 
 export function Dashboard() {
-  useAuth();
-
   return (
     <DashboardProvider>
       <DashboardContext.Consumer>

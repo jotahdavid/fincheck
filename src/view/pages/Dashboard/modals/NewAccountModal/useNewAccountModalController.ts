@@ -43,6 +43,11 @@ export function useNewAccountModalController() {
     (data: BankAccountCreateParams) => bankAccountsService.create(data),
   );
 
+  function handleCloseNewAccountModal() {
+    closeNewAccountModal();
+    reset();
+  }
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       await mutateAsync({
@@ -51,9 +56,8 @@ export function useNewAccountModalController() {
       });
 
       toast.success('Conta cadastrada com sucesso!');
-      reset();
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      closeNewAccountModal();
+      handleCloseNewAccountModal();
     } catch (err) {
       toast.error('Erro ao cadastrar a conta.');
     }
@@ -61,7 +65,7 @@ export function useNewAccountModalController() {
 
   return {
     isNewAccountModalOpen,
-    closeNewAccountModal,
+    closeNewAccountModal: handleCloseNewAccountModal,
     register,
     control,
     handleSubmit: handleSubmit(onSubmit),

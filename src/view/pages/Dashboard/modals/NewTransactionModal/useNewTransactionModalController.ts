@@ -67,6 +67,11 @@ export function useNewTransactionModalController() {
     categories.filter((category) => category.type === newTransactionType)
   ), [categories, newTransactionType]);
 
+  function handleCloseNewTransactionModal() {
+    closeNewTransactionModal();
+    reset();
+  }
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!newTransactionType) return;
 
@@ -81,10 +86,9 @@ export function useNewTransactionModalController() {
       toast.success(
         `${newTransactionType === 'EXPENSE' ? 'Despesa' : 'Receita'} cadastrada com sucesso!`,
       );
-      reset();
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      closeNewTransactionModal();
+      handleCloseNewTransactionModal();
     } catch (err) {
       toast.error(
         `Erro ao cadastrar a ${newTransactionType === 'EXPENSE' ? 'despesa' : 'receita'}.`,
@@ -94,7 +98,7 @@ export function useNewTransactionModalController() {
 
   return {
     isNewTransactionModalOpen,
-    closeNewTransactionModal,
+    closeNewTransactionModal: handleCloseNewTransactionModal,
     newTransactionType,
     register,
     handleSubmit: handleSubmit(onSubmit),

@@ -90,6 +90,7 @@ export function useEditAccountModalController() {
 
       toast.success('Conta excluída com sucesso!');
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
       closeEditAccountModal();
     } catch (err) {
       toast.error('Erro ao excluir a conta');

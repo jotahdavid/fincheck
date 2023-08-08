@@ -1,7 +1,7 @@
 import {
   ReactNode, createContext, useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
 import { LocalStorageKeys } from '@app/config/LocalStorageKeys';
@@ -28,6 +28,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return Boolean(storedAccessToken);
   });
 
+  const queryClient = useQueryClient();
+
   const {
     data,
     isError,
@@ -49,8 +51,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signOut = useCallback(() => {
     localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
     remove();
+    queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
     setSignedIn(false);
-  }, [remove]);
+  }, [remove, queryClient]);
 
   useEffect(() => {
     if (isError) {

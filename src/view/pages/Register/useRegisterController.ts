@@ -6,7 +6,6 @@ import { toast } from 'react-hot-toast';
 
 import authService from '@app/services/authService';
 import { SignupParams } from '@app/services/authService/signup';
-import { delay } from '@app/utils/delay';
 import { useAuth } from '@app/hooks/useAuth';
 
 const schema = z.object({
@@ -31,10 +30,7 @@ export function useRegisterController() {
   });
 
   const { isLoading, mutateAsync } = useMutation({
-    mutationFn: async (data: SignupParams) => {
-      await delay();
-      return authService.signup(data);
-    },
+    mutationFn: (data: SignupParams) => authService.signup(data),
   });
 
   const { signIn } = useAuth();

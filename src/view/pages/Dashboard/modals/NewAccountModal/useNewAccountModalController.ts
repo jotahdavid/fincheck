@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
-import { delay } from '@app/utils/delay';
 import { BankAccountCreateParams } from '@app/services/bankAccountsService/create';
 import { bankAccountsService } from '@app/services/bankAccountsService';
 import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
@@ -40,10 +39,9 @@ export function useNewAccountModalController() {
   });
 
   const queryClient = useQueryClient();
-  const { isLoading, mutateAsync } = useMutation(async (data: BankAccountCreateParams) => {
-    await delay();
-    return bankAccountsService.create(data);
-  });
+  const { isLoading, mutateAsync } = useMutation(
+    (data: BankAccountCreateParams) => bankAccountsService.create(data),
+  );
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {

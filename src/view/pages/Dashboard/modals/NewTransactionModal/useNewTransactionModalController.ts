@@ -7,7 +7,6 @@ import { toast } from 'react-hot-toast';
 
 import { useBankAccounts } from '@app/hooks/useBankAccounts';
 import { useCategories } from '@app/hooks/useCategories';
-import { delay } from '@app/utils/delay';
 import { transactionsService } from '@app/services/transactionsService';
 import { TransactionCreateParams } from '@app/services/transactionsService/create';
 import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
@@ -53,10 +52,7 @@ export function useNewTransactionModalController() {
     isLoading: isLoadingCreate,
     mutateAsync: createTransaction,
   } = useMutation({
-    mutationFn: async (data: TransactionCreateParams) => {
-      await delay();
-      return transactionsService.create(data);
-    },
+    mutationFn: (data: TransactionCreateParams) => transactionsService.create(data),
   });
 
   const filteredCategories = useMemo(() => (

@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
-import { delay } from '@app/utils/delay';
 import { bankAccountsService } from '@app/services/bankAccountsService';
 import { BankAccountEditParams } from '@app/services/bankAccountsService/edit';
 import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
@@ -50,18 +49,12 @@ export function useEditAccountModalController() {
   const {
     isLoading,
     mutateAsync: updateAccount,
-  } = useMutation(async (data: BankAccountEditParams) => {
-    await delay();
-    return bankAccountsService.edit(data);
-  });
+  } = useMutation((data: BankAccountEditParams) => bankAccountsService.edit(data));
 
   const {
     isLoading: isLoadingDelete,
     mutateAsync: removeAccount,
-  } = useMutation(async (bankAccountId: string) => {
-    await delay();
-    return bankAccountsService.remove(bankAccountId);
-  });
+  } = useMutation((bankAccountId: string) => bankAccountsService.remove(bankAccountId));
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!accountBeingEdited) return;

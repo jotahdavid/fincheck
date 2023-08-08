@@ -8,7 +8,6 @@ import { toast } from 'react-hot-toast';
 import { useBankAccounts } from '@app/hooks/useBankAccounts';
 import { useCategories } from '@app/hooks/useCategories';
 import { Transaction } from '@app/entities/Transaction';
-import { delay } from '@app/utils/delay';
 import { transactionsService } from '@app/services/transactionsService';
 import { TransactionEditParams } from '@app/services/transactionsService/edit';
 import { currencyRealToNumber } from '@app/utils/currencyRealToNumber';
@@ -55,20 +54,14 @@ export function useEditTransactionModalController(
 
   const queryClient = useQueryClient();
   const { isLoading, mutateAsync: updateTransaction } = useMutation({
-    mutationFn: async (data: TransactionEditParams) => {
-      await delay();
-      return transactionsService.edit(data);
-    },
+    mutationFn: (data: TransactionEditParams) => transactionsService.edit(data),
   });
 
   const {
     isLoading: isLoadingDelete,
     mutateAsync: removeTransaction,
   } = useMutation({
-    mutationFn: async (transactionId: string) => {
-      await delay();
-      return transactionsService.remove(transactionId);
-    },
+    mutationFn: (transactionId: string) => transactionsService.remove(transactionId),
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {

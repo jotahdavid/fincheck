@@ -5,7 +5,7 @@ import illustrationSrc from '@assets/illustration.png';
 
 export function AuthLayout() {
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full min-h-[520px] lg:min-h-[600px] bg-gray-0">
       <div className="w-full lg:w-1/2 h-full flex flex-col justify-center items-center">
         <Logo className="text-gray-500 h-6" />
 

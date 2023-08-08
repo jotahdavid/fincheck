@@ -26,7 +26,7 @@ interface DropdownMenuContentProps {
 
 function DropdownMenuContent({ children, className }: DropdownMenuContentProps) {
   return (
-    <RadixDropdownMenu.Portal>
+    <RadixDropdownMenu.Portal container={document.getElementById('radix-root')}>
       <RadixDropdownMenu.Content
         className={cn(
           'bg-white p-2 rounded-2xl space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)] data-[side=bottom]:animate-slide-up-and-fade data-[side=top]:animate-slide-down-and-fade',

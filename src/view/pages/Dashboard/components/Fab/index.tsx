@@ -3,11 +3,13 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { DropdownMenu } from '@view/components/DropdownMenu';
 import { BankAccountIcon } from '@view/components/icons/BankAccountIcon';
 import { CategoryIcon } from '@view/components/icons/categories/CategoryIcon';
+import { useBankAccounts } from '@app/hooks/useBankAccounts';
 
 import { useDashboard } from '../DashboardContext/useDashboard';
 
 export function Fab() {
   const { openNewAccountModal, openNewTransactionModal } = useDashboard();
+  const { accounts, isFetching } = useBankAccounts();
 
   return (
     <div className="fixed right-4 bottom-4 z-10">
@@ -22,17 +24,28 @@ export function Fab() {
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content className="mr-4" container={document.getElementById('radix-root')}>
-          <DropdownMenu.Item className="gap-2" onSelect={() => openNewTransactionModal('EXPENSE')}>
+          <DropdownMenu.Item
+            className="gap-2"
+            onSelect={() => openNewTransactionModal('EXPENSE')}
+            disabled={accounts.length === 0 || isFetching}
+          >
             <CategoryIcon type="expense" />
             Nova Despesa
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item className="gap-2" onSelect={() => openNewTransactionModal('INCOME')}>
+          <DropdownMenu.Item
+            className="gap-2"
+            onSelect={() => openNewTransactionModal('INCOME')}
+            disabled={accounts.length === 0 || isFetching}
+          >
             <CategoryIcon type="income" />
             Nova Receita
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item className="gap-2" onSelect={openNewAccountModal}>
+          <DropdownMenu.Item
+            className="gap-2"
+            onSelect={openNewAccountModal}
+          >
             <BankAccountIcon />
             Nova Conta
           </DropdownMenu.Item>

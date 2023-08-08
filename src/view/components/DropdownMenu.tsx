@@ -48,17 +48,21 @@ DropdownMenuContent.defaultProps = {
 interface DropdownMenuItemProps {
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
   onSelect?: () => void;
 }
 
-function DropdownMenuItem({ children, className, onSelect }: DropdownMenuItemProps) {
+function DropdownMenuItem({
+  children, className, disabled, onSelect,
+}: DropdownMenuItemProps) {
   return (
     <RadixDropdownMenu.Item
       className={cn(
-        'min-h-[40px] outline-none flex items-center py-2 px-4 text-gray-800 text-sm data-[highlighted]:bg-gray-50 rounded-2xl transition-colors cursor-pointer',
+        'min-h-[40px] outline-none flex items-center py-2 px-4 text-gray-800 text-sm data-[highlighted]:bg-gray-50 rounded-2xl transition-colors cursor-pointer data-[disabled]:bg-gray-200 data-[disabled]:cursor-default',
         className,
       )}
       onSelect={onSelect}
+      disabled={disabled}
     >
       {children}
     </RadixDropdownMenu.Item>
@@ -67,6 +71,7 @@ function DropdownMenuItem({ children, className, onSelect }: DropdownMenuItemPro
 
 DropdownMenuItem.defaultProps = {
   className: '',
+  disabled: false,
   onSelect: () => {},
 };
 

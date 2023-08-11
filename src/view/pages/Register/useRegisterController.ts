@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 import authService from '@app/services/authService';
 import { SignupParams } from '@app/services/authService/signup';
@@ -25,6 +26,7 @@ export function useRegisterController() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -39,7 +41,13 @@ export function useRegisterController() {
     try {
       const { accessToken } = await mutateAsync(data);
       signIn(accessToken);
-    } catch {
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+      if (error?.response?.data && error.response?.data.message === 'This e-mail is already in use') {
+        setError('email', { message: 'E-mail já utilizado' });
+        toast.error('Este e-mail já foi utilizado!');
+        return;
+      }
       toast.error('Ocorreu um erro ao criar a sua conta!');
     }
   };
